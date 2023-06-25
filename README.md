@@ -8,4 +8,6 @@
 --dart-define FLICR_API_KEY=...
 ```
 
-![demo video](docs/demo.webm)
+<video width="320" height="240" controls>
+  <source src="docs/demo.webm" type="video/webm">
+</video>
