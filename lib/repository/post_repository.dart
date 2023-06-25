@@ -38,7 +38,7 @@ class PostRepository extends AbstractPostRepository {
 
       var imageUrl = 'https://live.staticflickr.com/$server/${id}_$secret.jpg';
       var isLiked = _likedPosts.contains(id);
-      var post = Post(id, imageUrl, isLiked);
+      var post = Post(id: id, url: imageUrl, isLiked: isLiked);
       posts.add(post);
     });
 

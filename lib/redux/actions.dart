@@ -1,24 +1,24 @@
 import '../domain/post.dart';
 
 class LikeAction {
-  final int postId;
+  final int postIndex;
 
-  const LikeAction(this.postId);
+  const LikeAction(this.postIndex);
 
   @override
   String toString() {
-    return 'LikeAction{postId: $postId}';
+    return 'LikeAction{postIndex: $postIndex}';
   }
 }
 
 class UnlikeAction {
-  final int postId;
+  final int postIndex;
 
-  const UnlikeAction(this.postId);
+  const UnlikeAction(this.postIndex);
 
   @override
   String toString() {
-    return 'UnlikeAction{postId: $postId}';
+    return 'UnlikeAction{postIndex: $postIndex}';
   }
 }
 
@@ -42,3 +42,5 @@ class PostLoadedAction {
     return 'PostLoadedAction{page: $page, posts: $posts }';
   }
 }
+
+class RefreshAction {}
