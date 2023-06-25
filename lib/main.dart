@@ -7,7 +7,8 @@ import 'package:infinity_scroll/widget/main_page.dart';
 import 'package:redux/redux.dart';
 
 void main() {
-  final store = Store<AppState>(appReducer, middleware: [ApiMiddleware()], initialState: const AppState());
+  final store =
+      Store<AppState>(appReducer, middleware: [ApiMiddleware(), LoggerMiddleware()], initialState: const AppState());
 
   runApp(MyApp(store: store));
 }

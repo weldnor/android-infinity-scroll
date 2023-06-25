@@ -20,9 +20,9 @@ class PostRepository extends AbstractPostRepository {
     var params = {
       'method': 'flickr.photos.search',
       'api_key': apiKey,
-      'text': 'capybara',
-      'page': '0',
-      'per_page': '10',
+      'text': 'capybara japan',
+      'page': page.toString(),
+      'per_page': perPage.toString(),
     };
 
     var url = Uri.http("www.flickr.com", "/services/rest", params);

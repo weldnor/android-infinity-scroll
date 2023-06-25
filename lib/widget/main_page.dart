@@ -1,38 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:infinity_scroll/domain/post.dart';
-import 'package:infinity_scroll/repository/post_repository.dart';
+import 'package:infinity_scroll/redux/state.dart';
 import 'package:infinity_scroll/widget/post_widget.dart';
+
+import '../redux/actions.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({super.key});
-
-  final _postRepository = PostRepository();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-            child: FutureBuilder<List<Post>>(
-      future: _getPosts(),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
-          return ListView(children: _getPostWidgets(snapshot.data));
-        } else {
-          return Container();
+            child: StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      builder: (context, vm) {
+        var store = StoreProvider.of<AppState>(context);
+
+        var posts = vm.posts;
+        if (posts.isEmpty) {
+          store.dispatch(LoadNextPostsAction());
+          return const Text('load..');
         }
+
+        return ListView.builder(
+            padding: const EdgeInsets.only(bottom: 10),
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              if (index == vm.posts.length - 1) {
+                store.dispatch(LoadNextPostsAction());
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              Post post = posts[index];
+              return PostWidget(url: post.url, liked: false);
+            });
       },
     )));
-  }
-
-  List<PostWidget> _getPostWidgets(List<Post> posts) {
-    List<PostWidget> res = [];
-    for (Post post in posts) {
-      res.add(PostWidget(url: post.url, liked: false));
-    }
-    return res;
-  }
-
-  Future<List<Post>> _getPosts() async {
-    return await _postRepository.getPosts(0, 10);
   }
 }
