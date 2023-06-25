@@ -6,6 +6,9 @@ import 'package:infinity_scroll/redux/state.dart';
 import 'package:redux/redux.dart';
 
 class PostPage extends StatelessWidget {
+  static const likedText = 'liked';
+  static const likeText = 'like';
+
   final int postIndex;
 
   const PostPage({super.key, required this.postIndex});
@@ -16,27 +19,27 @@ class PostPage extends StatelessWidget {
         body: SafeArea(
             child: StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
-      builder: (context, state) {
-        var store = StoreProvider.of<AppState>(context);
-        var post = state.posts[postIndex];
-        var postIsLiked = post.isLiked;
+              builder: (context, state) {
+                var store = StoreProvider.of<AppState>(context);
+                var post = state.posts[postIndex];
+                var postIsLiked = post.isLiked;
 
-        return Column(children: [
-          CachedNetworkImage(
-            imageUrl: post.url,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
-          Row(children: [
-            OutlinedButton(
-                child: Text(post.isLiked ? 'liked' : 'like'),
+                return Column(children: [
+                  CachedNetworkImage(
+                    imageUrl: post.url,
+                    placeholder: (context, url) => const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
+                  Row(children: [
+                    OutlinedButton(
+                        child: Text(post.isLiked ? likedText : likeText),
                 onPressed: () {
                   return _likeButtonPressed(store, postIsLiked);
                 })
-          ])
-        ]);
-      },
-    )));
+                  ])
+                ]);
+              },
+            )));
   }
 
   void _likeButtonPressed(Store<AppState> store, bool isLiked) {
