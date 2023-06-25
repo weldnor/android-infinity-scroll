@@ -6,6 +6,9 @@ import '../redux/actions.dart';
 import '../redux/state.dart';
 
 class PostWidget extends StatelessWidget {
+  static const likedText = 'liked';
+  static const likeText = 'like';
+
   final int postIndex;
 
   const PostWidget({super.key, required this.postIndex});
@@ -14,8 +17,8 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
-      builder: (context, vm) {
-        var post = vm.posts[postIndex];
+      builder: (context, state) {
+        var post = state.posts[postIndex];
 
         return Column(children: [
           CachedNetworkImage(
@@ -26,8 +29,8 @@ class PostWidget extends StatelessWidget {
           Row(
             children: [
               OutlinedButton(
-                  child: Text(post.isLiked ? 'liked' : 'like'),
-                  onPressed: () => {onLikeButtonPressed(context, postIndex, post.isLiked)})
+                  child: Text(post.isLiked ? likedText : likeText),
+                  onPressed: () => {_onLikeButtonPressed(context, postIndex, post.isLiked)})
             ],
           )
         ]);
@@ -35,7 +38,7 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  Future onLikeButtonPressed(context, int postIndex, bool isLiked) async {
+  Future _onLikeButtonPressed(context, int postIndex, bool isLiked) async {
     var store = StoreProvider.of<AppState>(context);
     if (isLiked) {
       store.dispatch(UnlikeAction(postIndex));

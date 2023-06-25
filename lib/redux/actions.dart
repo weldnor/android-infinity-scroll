@@ -29,8 +29,6 @@ class LoadNextPostsAction {
   }
 }
 
-class LoadPrevPostsAction {}
-
 class PostLoadedAction {
   final List<Post> posts;
   final int page;

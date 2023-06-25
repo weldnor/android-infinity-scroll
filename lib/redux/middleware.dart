@@ -5,14 +5,6 @@ import 'package:redux/redux.dart';
 
 import '../repository/post_repository.dart';
 
-class LoggerMiddleware extends MiddlewareClass<AppState> {
-  @override
-  call(Store<AppState> store, action, NextDispatcher next) {
-    print(action.toString());
-    next(action);
-  }
-}
-
 class ApiMiddleware extends MiddlewareClass<AppState> {
   final _postsPerPage = 100;
   final _postRepository = PostRepository();
@@ -22,7 +14,6 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
     if (action is LoadNextPostsAction) {
       return await _fetchPosts(store, store.state.page + 1);
     }
-
     next(action);
   }
 

@@ -7,7 +7,7 @@ import '../redux/actions.dart';
 import 'post_page.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({super.key});
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -20,32 +20,31 @@ class _MainPageState extends State<MainPage> {
         body: SafeArea(
             child: StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
-      builder: (context, vm) {
+              builder: (context, state) {
         var store = StoreProvider.of<AppState>(context);
 
-        var posts = vm.posts;
+        var posts = state.posts;
         if (posts.isEmpty) {
-                  store.dispatch(LoadNextPostsAction());
-                  // return const Text('load..');
+          store.dispatch(LoadNextPostsAction());
         }
 
-                return ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      if (index == vm.posts.length - 1) {
+        return ListView.builder(
+            padding: const EdgeInsets.only(bottom: 10),
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              if (index == state.posts.length - 1) {
                 store.dispatch(LoadNextPostsAction());
                 return const Center(child: CircularProgressIndicator());
               }
 
               return GestureDetector(
-                  onTap: () => {onImagePressed(context, index)}, child: PostWidget(postIndex: index));
+                  onTap: () => {_onImagePressed(context, index)}, child: PostWidget(postIndex: index));
             });
       },
     )));
   }
 
-  Future onImagePressed(context, postIndex) async {
+  Future<void> _onImagePressed(context, int postIndex) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PostPage(postIndex: postIndex),

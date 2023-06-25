@@ -4,15 +4,9 @@ import 'package:xml/xml.dart';
 
 abstract class AbstractPostRepository {
   Future<List<Post>> getPosts(int page, int perPage);
-
-  Future<void> likePost(int postId);
-
-  Future<void> unlikePost(int postId);
 }
 
 class PostRepository extends AbstractPostRepository {
-  final Set _likedPosts = {};
-
   @override
   Future<List<Post>> getPosts(int page, int perPage) async {
     var apiKey = _getFlicrApiKey();
@@ -37,8 +31,7 @@ class PostRepository extends AbstractPostRepository {
       var secret = element.getAttribute('secret')!;
 
       var imageUrl = 'https://live.staticflickr.com/$server/${id}_$secret.jpg';
-      var isLiked = _likedPosts.contains(id);
-      var post = Post(id: id, url: imageUrl, isLiked: isLiked);
+      var post = Post(id: id, url: imageUrl, isLiked: false);
       posts.add(post);
     });
 
@@ -51,15 +44,5 @@ class PostRepository extends AbstractPostRepository {
       throw AssertionError('FLICR_API_KEY is not set');
     }
     return flicrApiKey;
-  }
-
-  @override
-  Future<void> likePost(int postId) async {
-    _likedPosts.add(postId);
-  }
-
-  @override
-  Future<void> unlikePost(int postId) async {
-    _likedPosts.remove(postId);
   }
 }
