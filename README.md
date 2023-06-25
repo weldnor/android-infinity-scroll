@@ -8,6 +8,6 @@
 --dart-define FLICR_API_KEY=...
 ```
 
-<video width="320" height="240" controls>
-  <source src="docs/demo.webm" type="video/webm">
-</video>
+
+
+https://github.com/weldnor/android-infinity-scroll/assets/14810195/c2467497-1047-49ba-b1a5-3d5e8cdd7d2d
